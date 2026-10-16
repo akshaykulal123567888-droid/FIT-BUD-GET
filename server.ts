@@ -27,7 +27,29 @@ import {
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+function getPort(): number {
+  const portIndex = process.argv.indexOf('--port');
+  if (portIndex !== -1 && process.argv[portIndex + 1]) {
+    const p = parseInt(process.argv[portIndex + 1], 10);
+    if (!isNaN(p)) return p;
+  }
+  if (process.env.PORT) {
+    const p = parseInt(process.env.PORT, 10);
+    if (!isNaN(p)) return p;
+  }
+  return 3000;
+}
+
+function getHost(): string {
+  const hostIndex = process.argv.indexOf('--host');
+  if (hostIndex !== -1 && process.argv[hostIndex + 1]) {
+    return process.argv[hostIndex + 1];
+  }
+  return process.env.HOST || '0.0.0.0';
+}
+
+const PORT = getPort();
+const HOST = getHost();
 
 app.use(express.json({ limit: '15mb' }));
 
@@ -813,6 +835,10 @@ Respond ONLY in valid JSON matching this schema:
   }
 });
 
+app.get('/api/health', (_req: Request, res: Response) => {
+  res.json({ status: 'ok', server: 'FitBudget', uptime: process.uptime() });
+});
+
 // ==================== VITE & STATIC HANDLING ====================
 
 async function startServer() {
@@ -830,8 +856,8 @@ async function startServer() {
     });
   }
 
-  app.listen(PORT, '0.0.0.0', () => {
-    console.log(`FitBudget full-stack server running on http://0.0.0.0:${PORT}`);
+  app.listen(PORT, HOST, () => {
+    console.log(`FitBudget full-stack server running on http://${HOST}:${PORT}`);
   });
 }
 

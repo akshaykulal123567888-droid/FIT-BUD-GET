@@ -18,6 +18,7 @@ import { WorkoutDayPlan, WorkoutExercise } from '../../server/db';
 import { EXERCISE_LIBRARY } from '../utils/workoutGenerator';
 import { ASSETS } from '../assets/images';
 import { ExerciseInstructionVideo } from '../components/ExerciseInstructionVideo';
+import { WorkoutTimer } from '../components/WorkoutTimer';
 
 export const WorkoutView: React.FC = () => {
   const { user, updatePlan, todayLog, saveTodayLog } = useApp();
@@ -30,10 +31,12 @@ export const WorkoutView: React.FC = () => {
 
   const activeDayPlan = workoutSplit[selectedDayIdx] || workoutSplit[0];
 
-  // Rest Timer State
+  // Rest & Exercise Timer State
   const [timerSeconds, setTimerSeconds] = useState<number>(60);
   const [timerInitial, setTimerInitial] = useState<number>(60);
   const [isTimerRunning, setIsTimerRunning] = useState<boolean>(false);
+  const [requestedRestSeconds, setRequestedRestSeconds] = useState<number | null>(null);
+  const [activeExerciseName, setActiveExerciseName] = useState<string>('');
 
   // Add Custom Exercise modal
   const [isAddExerciseModalOpen, setIsAddExerciseModalOpen] = useState<boolean>(false);
@@ -69,10 +72,14 @@ export const WorkoutView: React.FC = () => {
     return () => clearInterval(interval);
   }, [isTimerRunning, timerSeconds]);
 
-  const startTimer = (seconds: number) => {
+  const startTimer = (seconds: number, exerciseName?: string) => {
     setTimerInitial(seconds);
     setTimerSeconds(seconds);
     setIsTimerRunning(true);
+    setRequestedRestSeconds(seconds);
+    if (exerciseName) {
+      setActiveExerciseName(exerciseName);
+    }
   };
 
   const handleToggleExerciseComplete = async (exerciseId: string) => {
@@ -244,7 +251,7 @@ export const WorkoutView: React.FC = () => {
         })}
       </div>
 
-      {/* Active Day Banner with Rest Timer Stopwatch */}
+      {/* Active Day Banner */}
       <div className="bg-zinc-950/90 text-white rounded-3xl p-6 border border-zinc-800 shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
@@ -263,36 +270,23 @@ export const WorkoutView: React.FC = () => {
           </p>
         </div>
 
-        {/* Stopwatch Rest Timer Widget */}
-        <div className="bg-black p-4 rounded-2xl border border-zinc-800 flex items-center gap-4 shrink-0 shadow-inner">
-          <div className="text-center">
-            <span className="text-[10px] font-bold text-zinc-500 uppercase tracking-wider block font-manrope">Rest Timer</span>
-            <div className="text-2xl font-black text-[#ef233c] font-mono">
-              {Math.floor(timerSeconds / 60)}:{(timerSeconds % 60).toString().padStart(2, '0')}
-            </div>
-          </div>
-
-          <div className="flex items-center gap-1.5">
-            <button
-              onClick={() => setIsTimerRunning(!isTimerRunning)}
-              className="p-2 bg-[#ef233c] hover:bg-red-700 text-white font-bold rounded-xl transition shadow-md shadow-red-600/30"
-              title={isTimerRunning ? 'Pause' : 'Start Timer'}
-            >
-              {isTimerRunning ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
-            </button>
-            <button
-              onClick={() => {
-                setIsTimerRunning(false);
-                setTimerSeconds(60);
-              }}
-              className="p-2 bg-white/5 hover:bg-white/10 text-zinc-400 hover:text-white rounded-xl transition border border-white/5"
-              title="Reset to 60s"
-            >
-              <RotateCcw className="w-4 h-4" />
-            </button>
-          </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => startTimer(60, activeDayPlan?.focus || 'General Rest')}
+            className="px-4 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-200 border border-zinc-700 font-bold text-xs rounded-2xl flex items-center gap-2 transition"
+          >
+            <Timer className="w-4 h-4 text-[#ef233c]" />
+            <span>Quick 60s Rest</span>
+          </button>
         </div>
       </div>
+
+      {/* Integrated Workout Timer (Rest Interval Countdown & Duration Tracker) */}
+      <WorkoutTimer
+        activeExerciseName={activeExerciseName}
+        requestedRestSeconds={requestedRestSeconds}
+        onRestRequestedHandled={() => setRequestedRestSeconds(null)}
+      />
 
       {/* Exercises List */}
       {activeDayPlan?.isRestDay || activeDayPlan?.exercises?.length === 0 ? (
@@ -347,11 +341,11 @@ export const WorkoutView: React.FC = () => {
                         {exercise.reps}
                       </span>
                       <button
-                        onClick={() => startTimer(exercise.restSeconds || 60)}
-                        className="px-2.5 py-1 bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/30 font-semibold rounded-lg flex items-center gap-1 transition"
-                        title="Click to start rest timer for this exercise"
+                        onClick={() => startTimer(exercise.restSeconds || 60, exercise.name)}
+                        className="px-2.5 py-1 bg-red-500/10 hover:bg-red-500/20 text-[#ef233c] border border-red-500/30 font-bold rounded-lg flex items-center gap-1 transition"
+                        title={`Start ${exercise.restSeconds || 60}s rest timer for ${exercise.name}`}
                       >
-                        <Timer className="w-3 h-3 text-blue-400" />
+                        <Timer className="w-3 h-3 text-[#ef233c]" />
                         <span>{exercise.restSeconds || 60}s Rest</span>
                       </button>
                     </div>
