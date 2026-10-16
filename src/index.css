@@ -1,0 +1,864 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400;1,500;1,600&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+@import "tailwindcss";
+
+* {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    box-sizing: border-box;
+}
+
+.font-playfair {
+    font-family: 'Playfair Display', serif;
+}
+
+/* =========================================================
+   FITBUDGET — PREMIUM FITNESS THEME
+   DESIGN ONLY
+   Does NOT change your existing functions/data/structure
+   ========================================================= */
+
+/* =========================================================
+   1. GLOBAL THEME
+   ========================================================= */
+
+:root {
+    --fit-bg: #07100d;
+    --fit-bg-2: #0a1511;
+
+    --fit-card: rgba(17, 29, 24, 0.78);
+    --fit-card-hover: rgba(23, 40, 32, 0.92);
+
+    --fit-border: rgba(255,255,255,0.075);
+
+    --fit-green: #a4ff78;
+    --fit-green-2: #69e681;
+    --fit-mint: #c5ffd8;
+
+    --fit-white: #f5faf6;
+    --fit-text: #d7e2db;
+    --fit-muted: #82928a;
+
+    --fit-shadow:
+        0 20px 60px rgba(0,0,0,.28);
+
+    --fit-radius: 22px;
+
+    /* Semantic Aliases for App Compatibility */
+    --accent-red: #a4ff78;
+    --accent-red-glow: rgba(164, 255, 120, 0.4);
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: "DM Sans", -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--fit-white);
+    background:
+        radial-gradient(
+            circle at 80% 0%,
+            rgba(164,255,120,.09),
+            transparent 30%
+        ),
+        radial-gradient(
+            circle at 5% 75%,
+            rgba(70,220,130,.06),
+            transparent 30%
+        ),
+        linear-gradient(
+            135deg,
+            #07100d,
+            #09130f 50%,
+            #06100c
+        );
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* =========================================================
+   2. BACKGROUND LIGHT
+   ========================================================= */
+
+body::before {
+    content: "";
+    position: fixed;
+    width: 500px;
+    height: 500px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(164,255,120,.06),
+            transparent 70%
+        );
+    top: -180px;
+    right: -100px;
+    pointer-events: none;
+    z-index: -1;
+    animation: backgroundFloat 12s ease-in-out infinite;
+}
+
+@keyframes backgroundFloat {
+    0%,100% {
+        transform: translate(0,0);
+    }
+    50% {
+        transform: translate(-40px,40px);
+    }
+}
+
+/* =========================================================
+   3. EXISTING CONTAINERS
+   ========================================================= */
+
+.container,
+main,
+section {
+    transition:
+        background .3s ease,
+        border-color .3s ease,
+        transform .3s ease;
+}
+
+/* =========================================================
+   4. NAVBAR
+   ========================================================= */
+
+nav,
+.navbar,
+header {
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+    background: rgba(7,16,13,.72);
+    border-bottom: 1px solid var(--fit-border);
+    box-shadow: 0 10px 40px rgba(0,0,0,.15);
+}
+
+nav a,
+.nav-links a,
+.nav-links button {
+    color: var(--fit-muted);
+    transition:
+        color .25s ease,
+        background .25s ease,
+        transform .25s ease;
+}
+
+nav a:hover,
+.nav-links a:hover,
+.nav-links button:hover {
+    color: var(--fit-white);
+    background: rgba(164,255,120,.07);
+    transform: translateY(-1px);
+}
+
+/* =========================================================
+   5. ALL CARDS
+   ========================================================= */
+
+.card,
+section.card,
+.dashboard-card,
+.stat,
+.meal-card,
+.workout-card,
+.routine-card {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.035),
+            rgba(255,255,255,.008)
+        ),
+        var(--fit-card);
+    border: 1px solid var(--fit-border);
+    border-radius: var(--fit-radius);
+    box-shadow: var(--fit-shadow);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    transition:
+        transform .35s cubic-bezier(.2,.8,.2,1),
+        border-color .35s ease,
+        box-shadow .35s ease,
+        background .35s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+/* subtle light inside card */
+.card::before,
+.dashboard-card::before,
+.stat::before {
+    content: "";
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(164,255,120,.06),
+            transparent 70%
+        );
+    top: -90px;
+    right: -70px;
+    pointer-events: none;
+}
+
+.card:hover,
+.dashboard-card:hover,
+.stat:hover,
+.meal-card:hover,
+.workout-card:hover,
+.routine-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(164,255,120,.17);
+    background: var(--fit-card-hover);
+    box-shadow:
+        0 25px 70px rgba(0,0,0,.35),
+        0 0 30px rgba(164,255,120,.025);
+}
+
+/* =========================================================
+   6. HEADINGS
+   ========================================================= */
+
+h1,
+h2,
+h3,
+h4 {
+    font-family: "Manrope", sans-serif;
+    letter-spacing: -0.7px;
+}
+
+h1 {
+    font-weight: 800;
+}
+
+h2,
+h3 {
+    font-weight: 700;
+}
+
+p {
+    color: var(--fit-muted);
+    line-height: 1.7;
+}
+
+/* =========================================================
+   7. GREEN HIGHLIGHTS
+   ========================================================= */
+
+.highlight,
+.green,
+.accent,
+.primary-text {
+    color: var(--fit-green);
+}
+
+strong {
+    color: var(--fit-white);
+}
+
+/* =========================================================
+   8. BUTTONS
+   ========================================================= */
+
+button,
+.btn,
+.primary,
+.cta {
+    border-radius: 12px;
+    transition:
+        transform .25s ease,
+        box-shadow .25s ease,
+        background .25s ease,
+        border-color .25s ease;
+    cursor: pointer;
+}
+
+button:hover,
+.btn:hover,
+.primary:hover,
+.cta:hover {
+    transform: translateY(-2px);
+}
+
+button:active,
+.btn:active,
+.primary:active,
+.cta:active {
+    transform: translateY(1px) scale(.98);
+}
+
+/* Main action */
+.primary,
+.btn-primary {
+    background:
+        linear-gradient(
+            135deg,
+            var(--fit-green),
+            var(--fit-green-2)
+        );
+    color: #07100d;
+    border: none;
+    font-weight: 700;
+    box-shadow:
+        0 10px 30px
+        rgba(164,255,120,.12);
+}
+
+.primary:hover,
+.btn-primary:hover {
+    box-shadow:
+        0 14px 40px
+        rgba(164,255,120,.22);
+}
+
+/* Secondary */
+.secondary,
+.btn-secondary {
+    background: rgba(255,255,255,.035);
+    color: var(--fit-white);
+    border: 1px solid var(--fit-border);
+}
+
+.secondary:hover,
+.btn-secondary:hover {
+    background: rgba(255,255,255,.07);
+    border-color: rgba(255,255,255,.14);
+}
+
+/* =========================================================
+   9. INPUTS
+   ========================================================= */
+
+input,
+select,
+textarea {
+    background: rgba(255,255,255,.035);
+    color: var(--fit-white);
+    border: 1px solid var(--fit-border);
+    border-radius: 12px;
+    outline: none;
+    transition:
+        border-color .25s ease,
+        background .25s ease,
+        box-shadow .25s ease;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    border-color: rgba(164,255,120,.5);
+    background: rgba(164,255,120,.035);
+    box-shadow: 0 0 0 4px rgba(164,255,120,.055);
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #64736c;
+}
+
+/* =========================================================
+   10. PROGRESS BARS
+   ========================================================= */
+
+.progress,
+.progress-bar {
+    background: rgba(255,255,255,.055);
+    border-radius: 100px;
+    overflow: hidden;
+}
+
+.progress span,
+.progress-bar span,
+.progress-fill {
+    background:
+        linear-gradient(
+            90deg,
+            var(--fit-green-2),
+            var(--fit-green)
+        );
+    border-radius: 100px;
+    box-shadow: 0 0 15px rgba(164,255,120,.18);
+    transition: width 1s cubic-bezier(.2,.8,.2,1);
+}
+
+/* =========================================================
+   11. CALORIE / CIRCULAR PROGRESS
+   ========================================================= */
+
+.progress-circle,
+.calorie-ring {
+    filter: drop-shadow(0 0 15px rgba(164,255,120,.12));
+}
+
+/* =========================================================
+   12. STAT NUMBERS
+   ========================================================= */
+
+.stat-value,
+.number,
+.metric-number {
+    font-family: "Manrope", sans-serif;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+/* =========================================================
+   13. ICON CONTAINERS
+   ========================================================= */
+
+.icon,
+.icon-box,
+.meal-icon,
+.exercise-icon {
+    background:
+        linear-gradient(
+            145deg,
+            rgba(164,255,120,.10),
+            rgba(164,255,120,.025)
+        );
+    border: 1px solid rgba(164,255,120,.08);
+    border-radius: 14px;
+    transition:
+        transform .3s ease,
+        background .3s ease;
+}
+
+.icon:hover,
+.icon-box:hover,
+.meal-icon:hover,
+.exercise-icon:hover {
+    transform: translateY(-3px) rotate(-2deg);
+    background: rgba(164,255,120,.13);
+}
+
+/* =========================================================
+   14. 3D CARD EFFECT
+   ========================================================= */
+
+[data-3d],
+.three-d,
+.hero-card,
+.workout-card {
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+/* =========================================================
+   15. HERO SECTION
+   ========================================================= */
+
+.hero,
+.hero-section {
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::after,
+.hero-section::after {
+    content: "";
+    position: absolute;
+    width: 280px;
+    height: 280px;
+    border-radius: 50%;
+    background:
+        radial-gradient(
+            circle,
+            rgba(164,255,120,.08),
+            transparent 70%
+        );
+    right: -100px;
+    bottom: -120px;
+    pointer-events: none;
+}
+
+/* =========================================================
+   16. 3D FLOATING OBJECTS
+   ========================================================= */
+
+.orb,
+.three-d-object,
+.floating-object {
+    transform-style: preserve-3d;
+    animation: floatingObject 5s ease-in-out infinite;
+}
+
+@keyframes floatingObject {
+    0%,100% {
+        transform: translateY(0) rotateX(0deg) rotateY(0deg);
+    }
+    50% {
+        transform: translateY(-10px) rotateX(5deg) rotateY(12deg);
+    }
+}
+
+/* =========================================================
+   17. MEAL / WORKOUT LIST
+   ========================================================= */
+
+.meal,
+.exercise,
+.workout-item,
+.routine {
+    transition:
+        background .25s ease,
+        transform .25s ease;
+}
+
+.meal:hover,
+.exercise:hover,
+.workout-item:hover,
+.routine:hover {
+    background: rgba(255,255,255,.025);
+    transform: translateX(4px);
+}
+
+/* =========================================================
+   18. CHECK BUTTONS
+   ========================================================= */
+
+.check,
+.checkbox,
+.complete-btn {
+    transition: .25s ease;
+}
+
+.check:hover,
+.checkbox:hover,
+.complete-btn:hover {
+    transform: scale(1.08);
+}
+
+.check.done,
+.checkbox.checked,
+.complete-btn.done {
+    background: var(--fit-green);
+    color: #07100d;
+    box-shadow: 0 0 20px rgba(164,255,120,.18);
+}
+
+/* =========================================================
+   19. CHARTS
+   ========================================================= */
+
+canvas {
+    max-width: 100%;
+}
+
+/* =========================================================
+   20. BADGES
+   ========================================================= */
+
+.badge,
+.tag,
+.label {
+    background: rgba(164,255,120,.07);
+    color: var(--fit-green);
+    border: 1px solid rgba(164,255,120,.09);
+    border-radius: 100px;
+    padding: 5px 10px;
+    font-size: 11px;
+    font-weight: 600;
+}
+
+/* =========================================================
+   21. SCROLLBAR
+   ========================================================= */
+
+::-webkit-scrollbar {
+    width: 7px;
+    height: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background: #07100d;
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(164,255,120,.22);
+    border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(164,255,120,.4);
+}
+
+/* =========================================================
+   22. SELECTION
+   ========================================================= */
+
+::selection {
+    background: rgba(164,255,120,.25);
+    color: white;
+}
+
+.selection-red::selection {
+    background: rgba(164,255,120,.35);
+    color: white;
+}
+
+/* =========================================================
+   23. SMOOTH APPEARANCE
+   ========================================================= */
+
+.card,
+.stat,
+.meal-card,
+.workout-card,
+.routine-card {
+    animation: cardAppear .55s ease both;
+}
+
+@keyframes cardAppear {
+    from {
+        opacity: 0;
+        transform: translateY(15px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================================================
+   24. MOBILE
+   ========================================================= */
+
+@media(max-width:768px) {
+    body {
+        font-size: 14px;
+    }
+    .card,
+    .dashboard-card,
+    .stat {
+        border-radius: 18px;
+    }
+    .container {
+        width: 92%;
+        margin: auto;
+    }
+    h1 {
+        font-size: clamp(30px,8vw,42px);
+    }
+    h2 {
+        font-size: 25px;
+    }
+    button {
+        min-height: 42px;
+    }
+}
+
+/* =========================================================
+   25. SMALL MOBILE
+   ========================================================= */
+
+@media(max-width:480px) {
+    .card,
+    .dashboard-card {
+        padding: 17px;
+    }
+    .stat {
+        padding: 14px;
+    }
+    .stat-value {
+        font-size: 23px;
+    }
+    .icon,
+    .icon-box {
+        border-radius: 11px;
+    }
+}
+
+/* =========================================================
+   26. THEME ADAPTATION BRIDGES (DESIGN-ONLY NON-DESTRUCTIVE)
+   ========================================================= */
+
+.text-\[\#ef233c\] {
+    color: var(--fit-green) !important;
+}
+
+.bg-\[\#ef233c\] {
+    background: linear-gradient(135deg, var(--fit-green), var(--fit-green-2)) !important;
+    color: #07100d !important;
+}
+
+.border-\[\#ef233c\] {
+    border-color: var(--fit-green) !important;
+}
+
+[class*="bg-\[\#ef233c\]\/"] {
+    background-color: rgba(164, 255, 120, 0.12) !important;
+}
+
+[class*="border-\[\#ef233c\]\/"] {
+    border-color: rgba(164, 255, 120, 0.25) !important;
+}
+
+[class*="hover\:border-\[\#ef233c\]"]:hover {
+    border-color: rgba(164, 255, 120, 0.5) !important;
+}
+
+[class*="hover\:text-\[\#ef233c\]"]:hover,
+.group:hover [class*="group-hover\:text-\[\#ef233c\]"] {
+    color: var(--fit-green) !important;
+}
+
+[class*="shadow-red-600"] {
+    box-shadow: 0 10px 30px rgba(164, 255, 120, 0.22) !important;
+}
+
+/* Harmonize background surfaces with the new theme */
+.bg-zinc-950,
+.bg-zinc-950\/80,
+.bg-zinc-950\/90,
+.bg-zinc-950\/95 {
+    background-color: var(--fit-card) !important;
+    border-color: var(--fit-border) !important;
+}
+
+/* =========================================================
+   ADDITIONAL APP UTILITIES & ANIMATIONS
+   ========================================================= */
+
+@property --gradient-angle { 
+  syntax: "<angle>"; 
+  initial-value: 0deg; 
+  inherits: false; 
+}
+
+@keyframes border-spin {
+  from { --gradient-angle: 0deg; }
+  to { --gradient-angle: 360deg; }
+}
+
+@keyframes fade-in-up {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes animStar {
+  from { transform: translateY(0px); }
+  to { transform: translateY(-2000px); }
+}
+
+@keyframes float-slow {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(1.2deg);
+  }
+}
+
+@keyframes float-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(14px) rotate(-1.5deg);
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    opacity: 0.35;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.65;
+    transform: scale(1.08);
+  }
+}
+
+.animate-float-slow {
+  animation: float-slow 7s ease-in-out infinite;
+}
+
+.animate-float-reverse {
+  animation: float-reverse 8.5s ease-in-out infinite;
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 6s ease-in-out infinite;
+}
+
+.animate-fade-up {
+  animation: fade-in-up 0.8s ease-out forwards;
+}
+
+.font-manrope { font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif; }
+.font-dm-sans { font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif; }
+.font-inter { font-family: 'DM Sans', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; }
+
+/* Shiny Conic CTA Button */
+.shiny-cta {
+  --gradient-angle: 0deg;
+  position: relative;
+  overflow: hidden;
+  border-radius: 9999px;
+  padding: 0.95rem 2.25rem;
+  background: linear-gradient(#07100d, #07100d) padding-box,
+  conic-gradient(from var(--gradient-angle), transparent 0%, #a4ff78 5%, #69e681 15%, #a4ff78 30%, transparent 40%, transparent 100%) border-box;
+  border: 2px solid transparent;
+  cursor: pointer;
+  isolation: isolate;
+  animation: border-spin 2.5s linear infinite;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.shiny-cta:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(164, 255, 120, 0.35);
+}
+
+.shiny-cta::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 50% 50%, white 0.5px, transparent 0);
+  background-size: 4px 4px;
+  opacity: 0.1;
+  z-index: 0;
+}
+
+/* Starfield with subtle emerald tint */
+.stars-1 { 
+  box-shadow: 234px 124px #fff, 654px 345px #fff, 876px 12px #fff, 1200px 800px #fff, 400px 1500px #fff, 1800px 200px #fff, 100px 1000px #fff, 900px 1900px #fff, 500px 600px #fff, 1400px 100px #fff, 300px 400px #fff, 1600px 1200px #fff; 
+}
+.stars-2 { 
+  box-shadow: 123px 456px #a4ff78, 789px 234px #fff, 456px 890px #a4ff78, 1100px 300px #fff, 200px 1200px #fff, 1500px 500px #a4ff78, 600px 1700px #fff, 1300px 900px #fff; 
+}
+
+.gradient-blur {
+  position: absolute;
+  z-index: 40;
+  inset: 0 0 auto 0;
+  height: 100px;
+  pointer-events: none;
+  background: linear-gradient(to bottom, rgba(7,16,13,0.85), transparent);
+  backdrop-filter: blur(8px);
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.text-stroke {
+  -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.12);
+  color: transparent;
+}
+
+/* Hide scrollbar for clean UI */
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-none {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

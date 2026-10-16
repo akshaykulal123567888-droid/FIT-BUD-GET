@@ -1,0 +1,6 @@
+{
+  "name": "FitBudget - Affordable Fitness & Nutrition Planner",
+  "description": "Personalized diet, calorie, protein, workout, and daily routine planner tailored to your body, goals, budget, and lifestyle.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
