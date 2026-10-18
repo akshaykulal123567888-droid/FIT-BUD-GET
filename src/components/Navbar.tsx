@@ -119,17 +119,6 @@ export const Navbar: React.FC = () => {
             )}
           </div>
 
-          {/* Presentation Slides Deck Button */}
-          <button
-            onClick={() => setIsSlidesModalOpen(true)}
-            className="group relative inline-flex items-center justify-center overflow-hidden rounded-full px-3 sm:px-4 py-2 transition-all active:scale-95 border bg-white/5 hover:bg-[#a4ff78]/15 text-zinc-300 hover:text-white border-white/10 hover:border-[#a4ff78]/40 font-bold"
-            title="View Full Detailed Presentation Slides Deck"
-          >
-            <span className="relative z-10 flex items-center gap-1.5 text-xs sm:text-sm font-manrope">
-              <Presentation className="w-3.5 h-3.5 text-[#a4ff78] group-hover:scale-110 transition-transform" />
-              <span className="hidden sm:inline">Slides</span>
-            </span>
-          </button>
 
           {/* Single Interactive 'My Profile' Button */}
           <button
@@ -219,15 +208,7 @@ export const Navbar: React.FC = () => {
             >
               Explore Features
             </button>
-            <button
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                scrollToSection('pricing');
-              }}
-              className="text-left text-xs font-medium text-zinc-400 hover:text-white py-1"
-            >
-              Pricing & Tiers
-            </button>
+
             <button
               onClick={() => {
                 setIsMobileMenuOpen(false);
